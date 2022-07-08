@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">RickMortyAppJava</string>
+    <string name="gender">Gender</string>
+    <string name="status">Status</string>
 </resources>

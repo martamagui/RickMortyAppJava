@@ -14,7 +14,7 @@ public class NetworkObj {
     private NetworkService service;
     private OkHttpClient client;
 
-    private NetworkObj() {
+    public NetworkObj() {
         buildClient();
         buildRetrofit();
     }

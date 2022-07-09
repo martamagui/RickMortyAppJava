@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.viewbinding.ViewBinding;
 
 import android.os.Bundle;
+import android.util.Log;
 
 import com.marta.rickmortyappjava.R;
 import com.marta.rickmortyappjava.api.model.Response;
@@ -28,7 +29,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onChanged(Response response) {
                 if(response != null){
-
+                    Log.e("HIII", response.getResults().get(0).getName() +"");
+                    adapter = new CharacterAdapter(response.getResults());
                 }
             }
         });
@@ -36,7 +38,6 @@ public class MainActivity extends AppCompatActivity {
 
     private void setRV(){
         binding.rvCharacters.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new CharacterAdapter();
         binding.rvCharacters.setAdapter(adapter);
     }
 }

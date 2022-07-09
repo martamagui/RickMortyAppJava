@@ -14,8 +14,8 @@ public class MainViewModel extends ViewModel {
     private ChactersRepo chactersRepo;
     private MutableLiveData<Response> charactersLiveData;
 
-    public MainViewModel(ChactersRepo chactersRepo) {
-        this.chactersRepo = chactersRepo;
+    public MainViewModel() {
+        this.chactersRepo = new ChactersRepo();
     }
 
     public LiveData<Response> getCharacters() {

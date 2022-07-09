@@ -17,6 +17,10 @@ import java.util.ArrayList;
 public class CharacterAdapter extends RecyclerView.Adapter<CharacterAdapter.ViewHolder> {
     private ArrayList<ResultResponse> charactersList;
 
+    public CharacterAdapter(ArrayList<ResultResponse> charactersList) {
+        this.charactersList = charactersList;
+    }
+
     @NonNull
     @Override
     public CharacterAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {

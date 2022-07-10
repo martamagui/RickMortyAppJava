@@ -3,49 +3,46 @@ package com.marta.rickmortyappjava.ui.common;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
+
+import androidx.recyclerview.widget.DiffUtil;
 
 import androidx.annotation.NonNull;
-import androidx.databinding.DataBindingUtil;
+import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.marta.rickmortyappjava.R;
 import com.marta.rickmortyappjava.api.model.ResultResponse;
-import com.marta.rickmortyappjava.databinding.CardItemBinding;
 
-import java.util.ArrayList;
+public class CharacterAdapter extends ListAdapter<ResultResponse, MyViewHolder> {
 
-public class CharacterAdapter extends RecyclerView.Adapter<CharacterAdapter.ViewHolder> {
-    private ArrayList<ResultResponse> charactersList;
-
-    public CharacterAdapter(ArrayList<ResultResponse> charactersList) {
-        this.charactersList = charactersList;
+    public CharacterAdapter(@NonNull DiffUtil.ItemCallback<ResultResponse> DIFF_CALLBACK) {
+        super(DIFF_CALLBACK);
     }
 
     @NonNull
     @Override
-    public CharacterAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        CardItemBinding binding = CardItemBinding.inflate(inflater, parent, false);
-        return new ViewHolder((binding));
+    public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        return MyViewHolder.create(parent);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull CharacterAdapter.ViewHolder holder, int position) {
-        ResultResponse character = charactersList.get(position);
-        holder.binding.tvName.setText(character.getName());
+    public void onBindViewHolder(@NonNull final MyViewHolder holder, final int position) {
+        ResultResponse character = getItem(position);
+        holder.bind(character.getName());
     }
 
-    @Override
-    public int getItemCount() {
-        return charactersList.size();
-    }
-
-    public class ViewHolder extends RecyclerView.ViewHolder {
-        private CardItemBinding binding;
-
-        public ViewHolder(@NonNull CardItemBinding binding) {
-            super(binding.getRoot());
-            this.binding = binding;
+    public static class DIFF_CALLBACK extends DiffUtil.ItemCallback<ResultResponse> {
+        @Override
+        public boolean areItemsTheSame(@NonNull ResultResponse oldItem, @NonNull ResultResponse newItem) {
+            return oldItem.getId() == newItem.getId();
         }
-    }
+
+        @Override
+        public boolean areContentsTheSame(@NonNull ResultResponse oldItem, @NonNull ResultResponse newItem) {
+            return oldItem.getName().equals(newItem.getName());
+        }
+    };
 }
+
+

@@ -11,6 +11,11 @@ public class ResultResponse {
     private String url;
     private String created;
 
+    public ResultResponse(float id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
     // Getter Methods
     public float getId() {
         return id;

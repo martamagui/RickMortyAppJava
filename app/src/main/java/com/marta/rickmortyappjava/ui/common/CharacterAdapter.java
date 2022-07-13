@@ -14,35 +14,46 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.marta.rickmortyappjava.R;
 import com.marta.rickmortyappjava.api.model.ResultResponse;
 
-public class CharacterAdapter extends ListAdapter<ResultResponse, MyViewHolder> {
+import java.util.ArrayList;
 
-    public CharacterAdapter(@NonNull DiffUtil.ItemCallback<ResultResponse> DIFF_CALLBACK) {
-        super(DIFF_CALLBACK);
+public class CharacterAdapter extends RecyclerView.Adapter<CharacterAdapter.CharacterViewHolder> {
+    ArrayList<ResultResponse> characterList;
+
+    public CharacterAdapter(ArrayList<ResultResponse> characterList) {
+        this.characterList = characterList;
     }
 
     @NonNull
     @Override
-    public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return MyViewHolder.create(parent);
+    public CharacterAdapter.CharacterViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_item, null, false);
+        return new CharacterViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final MyViewHolder holder, final int position) {
-        ResultResponse character = getItem(position);
-        holder.bind(character.getName());
+    public void onBindViewHolder(@NonNull CharacterAdapter.CharacterViewHolder holder, int position) {
+        holder.setCharacter(characterList.get(position));
     }
 
-    public static class DIFF_CALLBACK extends DiffUtil.ItemCallback<ResultResponse> {
-        @Override
-        public boolean areItemsTheSame(@NonNull ResultResponse oldItem, @NonNull ResultResponse newItem) {
-            return oldItem.getId() == newItem.getId();
+    @Override
+    public int getItemCount() {
+        return characterList.size();
+    }
+
+    public class CharacterViewHolder extends RecyclerView.ViewHolder {
+        TextView name;
+        TextView gender;
+        public CharacterViewHolder(@NonNull View itemView) {
+            super(itemView);
+            name = (TextView) itemView.findViewById(R.id.tv_name);
+            gender = (TextView) itemView.findViewById(R.id.tv_gender_value);
         }
 
-        @Override
-        public boolean areContentsTheSame(@NonNull ResultResponse oldItem, @NonNull ResultResponse newItem) {
-            return oldItem.getName().equals(newItem.getName());
+        public void setCharacter(ResultResponse resultResponse) {
+            name.setText(resultResponse.getName());
+            gender.setText(resultResponse.getGender());
         }
-    };
+    }
 }
 
 
